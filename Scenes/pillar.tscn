@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://du2c3p8dno2gf"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wk6f0"]
+polygon = PackedVector2Array(0, 40, 0, 0, 40, 0, 40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iiqsp"]
+size = Vector2(40, 40)
+
+[node name="Pillar" type="StaticBody2D"]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_wk6f0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_iiqsp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
