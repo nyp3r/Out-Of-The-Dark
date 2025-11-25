@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://1pydhwav7cxr"]
+
+[ext_resource type="Script" uid="uid://bavkwkkwqfvot" path="res://Scenes/player.gd" id="1_qxrlw"]
+[ext_resource type="Texture2D" uid="uid://5ebdruhr7hrd" path="res://icon.svg" id="2_wrm1d"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3dryh"]
+polygon = PackedVector2Array(0, 40, 0, 0, 40, 0, 40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wowpa"]
+size = Vector2(40, 40)
+
+[sub_resource type="Gradient" id="Gradient_i6g32"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1l0tm"]
+gradient = SubResource("Gradient_i6g32")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v158k"]
+size = Vector2(24, 24)
+
+[node name="Game" type="Node2D"]
+
+[node name="Pillar" type="StaticBody2D" parent="."]
+position = Vector2(167, 116)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Pillar"]
+occluder = SubResource("OccluderPolygon2D_3dryh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillar"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_wowpa")
+
+[node name="ColorRect" type="ColorRect" parent="Pillar"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Pillar2" type="StaticBody2D" parent="."]
+position = Vector2(233, 229)
+scale = Vector2(0.53022784, 0.53022784)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Pillar2"]
+occluder = SubResource("OccluderPolygon2D_3dryh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pillar2"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_wowpa")
+
+[node name="ColorRect" type="ColorRect" parent="Pillar2"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(222, 166)
+scale = Vector2(3.1875, 3.1875)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_1l0tm")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(167, 116)
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 7.0
+offset_top = 2.0
+offset_right = 404.0
+offset_bottom = 318.0
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(167, 116)
+script = ExtResource("1_qxrlw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(56, 57)
+scale = Vector2(0.18738106, 0.18738106)
+texture = ExtResource("2_wrm1d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(56, 57)
+shape = SubResource("RectangleShape2D_v158k")
