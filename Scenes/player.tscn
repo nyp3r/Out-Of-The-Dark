@@ -1,7 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8oe2rplgv31m"]
+[gd_scene load_steps=9 format=3 uid="uid://c8oe2rplgv31m"]
 
 [ext_resource type="Script" uid="uid://bavkwkkwqfvot" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://b7kemrvcql255" path="res://Scripts/shooting_point.gd" id="3_6t5aa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
+size = Vector2(12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("2_cvnsp")
@@ -18,9 +22,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
-size = Vector2(12, 12)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
 atlas = ExtResource("2_cvnsp")
 region = Rect2(16, 16, 16, 16)
@@ -36,17 +37,25 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+motion_mode = 1
 script = ExtResource("1_cvnsp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.4703484e-08)
+shape = SubResource("RectangleShape2D_vgqql")
+one_way_collision_margin = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6t5aa")
 animation = &"new_animation"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4.4703484e-08)
-shape = SubResource("RectangleShape2D_vgqql")
+[node name="PistolAnchorNode" type="Node2D" parent="."]
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
-position = Vector2(13, 0)
+[node name="ShootingPoint" type="Marker2D" parent="PistolAnchorNode"]
+position = Vector2(15, -1)
+script = ExtResource("3_6t5aa")
+
+[node name="PistolSprite" type="AnimatedSprite2D" parent="PistolAnchorNode"]
+position = Vector2(11, 0)
 sprite_frames = SubResource("SpriteFrames_vgqql")

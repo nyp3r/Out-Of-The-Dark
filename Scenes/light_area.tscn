@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://crcb7qb4t3a4i"]
+
+[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="1_85kml"]
+
+[sub_resource type="Gradient" id="Gradient_i6g32"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r3kg8"]
+gradient = SubResource("Gradient_i6g32")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_85kml"]
+radius = 11.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r3kg8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djbbt"]
+atlas = ExtResource("1_85kml")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8osqs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_djbbt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="LightArea" type="Node2D"]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(2, 2)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_r3kg8")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/Area2D"]
+shape = SubResource("CircleShape2D_85kml")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_r3kg8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
+sprite_frames = SubResource("SpriteFrames_8osqs")
