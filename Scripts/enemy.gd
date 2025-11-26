@@ -5,24 +5,39 @@ class_name Enemy
 @export var data: EnemyData
 var current_health: int
 
-var player: Player
+var target: Node2D
 
 @onready var attack_cooldown_timer: Timer = $AttackCooldownTimer
-@onready var game_manager: Node = %GameManager
+
+var in_attack_range := false
 
 signal enemy_killed(kill_points: int)
 
+func get_closest_target() -> Node2D: #fix - always returns the player node
+	var targets := get_tree().get_nodes_in_group("Lights")
+	targets.append(get_tree().get_first_node_in_group("Player"))
+	var closest_node: Node2D
+	var closest_distance: float = 999999
+	
+	for target in targets as Array[Node2D]:
+		print_debug(global_position.distance_to(target.global_position))
+		var target_distance = global_position.distance_to(target.global_position)
+		if target_distance < closest_distance:
+			closest_node = target
+			closest_distance = target_distance
+	
+	return closest_node
+
 func _ready() -> void:
-	player = get_tree().get_first_node_in_group("Player")
+	target = get_closest_target()
 	attack_cooldown_timer.wait_time = data.attack_speed
 	current_health = data.max_health
 
 func _physics_process(_delta: float) -> void:
-	if player:
-		var direction = global_position.direction_to(player.global_position)
+		var direction = global_position.direction_to(target.global_position)
 		velocity = direction * data.speed
 		move_and_slide()
-		look_at(player.global_position)
+		look_at(target.global_position)
 
 func take_damage(damage: int):
 	current_health -= damage
@@ -32,14 +47,18 @@ func take_damage(damage: int):
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player"): 
 		attack_cooldown_timer.start()
+		in_attack_range = true
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		attack_cooldown_timer.stop()
+		in_attack_range = false
 
 
 func _on_attack_cooldown_timer_timeout() -> void:
-	player.take_damage(data.damage)
+	if in_attack_range:
+		target.take_damage(data.damage)
+		attack_cooldown_timer.start()

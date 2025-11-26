@@ -12,6 +12,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not reloading and Input.is_action_just_pressed("shoot"):
 		var bullet_instance = BULLET.instantiate()
-		get_tree().root.add_child(bullet_instance)
+		get_tree().current_scene.add_child(bullet_instance)
 		bullet_instance.global_position = global_position
 		bullet_instance.rotation = get_parent().rotation

@@ -6,7 +6,10 @@ var current_health = max_health
 
 @export var speed = 400
 @onready var pistol_anchor_node: Node2D = $PistolAnchorNode
+@onready var health_label: Label = $"../CanvasLayer/HealthLabel"
 
+func _ready() -> void:
+	health_label.text = str(current_health)
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -19,5 +22,6 @@ func _physics_process(_delta):
 
 func take_damage(damage: int):
 	current_health -= damage
+	health_label.text = str(current_health)
 	if current_health <= 0:
 		get_tree().change_scene_to_file("res://Scenes/end_screen.tscn")
