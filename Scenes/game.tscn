@@ -41,7 +41,7 @@ visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(3.1875, 3.1875)
+scale = Vector2(3, 3)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_1l0tm")
 
@@ -50,7 +50,7 @@ position = Vector2(35, -40)
 
 [node name="Player" parent="." instance=ExtResource("2_wrm1d")]
 z_index = 10
-position = Vector2(7, 48)
+position = Vector2(1, 0)
 collision_mask = 0
 speed = 100
 
@@ -96,8 +96,6 @@ autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
 wait_time = 2.0
-
-[node name="Lights" type="Node2D" parent="."]
 
 [connection signal="timeout" from="CountDownTimer" to="GameManager" method="_on_count_down_timer_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="GameManager" method="_on_spawn_timer_timeout"]

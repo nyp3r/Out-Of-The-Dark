@@ -4,7 +4,8 @@ class_name GameManager
 const END_SCREEN = preload("uid://6cp1xfijh1jf")
 const ENEMY = preload("uid://cowge2t74w0jm")
 const LIGHT = preload("uid://crcb7qb4t3a4i")
-const LIGHT_RADIUS = 128
+const LIGHT_RADIUS = 64
+const MAIN_LIGHT_RADIUS = 96
 var spawn_count = 5
 
 @onready var combo_timer: Timer = $"../ComboTimer"
@@ -13,7 +14,9 @@ var spawn_count = 5
 var kill_combo: int
 
 func _ready() -> void:
-	spawn_enemies.call_deferred(spawn_count, Vector2.ZERO, 102)
+	spawn_count = 1
+	spawn_enemies.call_deferred(spawn_count, Vector2.ZERO, MAIN_LIGHT_RADIUS)
+	spawn_light()
 
 func _on_count_down_timer_timeout() -> void: 
 	get_tree().change_scene_to_packed(END_SCREEN)
@@ -22,13 +25,12 @@ func spawn_enemies(count: int, center: Vector2, radius: float): #to be figured o
 	for i in range(count):
 		var enemy_instance = ENEMY.instantiate()
 		get_tree().current_scene.add_child(enemy_instance)
-
-		# Random angle
-		var angle = randf() * TAU
-		# Random distance outward (not biased toward center)
-		var r = radius * sqrt(randf())
-		var spawn_position = center + Vector2(cos(angle), sin(angle)) * r
-		enemy_instance.global_position = spawn_position
+		
+		# Spawn randomly from a point in a circle
+		var angle: float = randf_range(0.0, TAU)
+		var vec: Vector2 = Vector2.RIGHT
+		enemy_instance.global_position = (vec * radius).rotated(angle) + center
+		
 		enemy_instance.connect("enemy_killed", _on_enemy_killed)
 
 

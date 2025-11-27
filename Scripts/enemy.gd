@@ -13,27 +13,26 @@ var in_attack_range := false
 
 signal enemy_killed(kill_points: int)
 
-func get_closest_target() -> Node2D: #fix - always returns the player node
+func get_closest_target() -> Node2D:
 	var targets := get_tree().get_nodes_in_group("Lights")
 	targets.append(get_tree().get_first_node_in_group("Player"))
 	var closest_node: Node2D
-	var closest_distance: float = 999999
-	
-	for target in targets as Array[Node2D]:
-		print_debug(global_position.distance_to(target.global_position))
-		var target_distance = global_position.distance_to(target.global_position)
+	var closest_distance: float = INF 
+	for child in targets as Array[Node2D]: 
+		var target_distance = child.global_position.distance_to(global_position)
 		if target_distance < closest_distance:
-			closest_node = target
+			closest_node = child
 			closest_distance = target_distance
-	
 	return closest_node
 
 func _ready() -> void:
+	await get_tree().create_timer(0.01).timeout
 	target = get_closest_target()
 	attack_cooldown_timer.wait_time = data.attack_speed
 	current_health = data.max_health
 
 func _physics_process(_delta: float) -> void:
+	if target:
 		var direction = global_position.direction_to(target.global_position)
 		velocity = direction * data.speed
 		move_and_slide()
