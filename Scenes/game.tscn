@@ -85,6 +85,12 @@ offset_top = 34.0
 offset_right = 40.0
 offset_bottom = 57.0
 
+[node name="LightHealthLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_top = 165.0
+offset_right = 40.0
+offset_bottom = 188.0
+
 [node name="CountDownTimer" type="Timer" parent="."]
 wait_time = 20.0
 one_shot = true

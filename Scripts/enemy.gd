@@ -37,6 +37,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = direction * data.speed
 		move_and_slide()
 		look_at(target.global_position)
+	else: queue_free()
 
 func take_damage(damage: int):
 	current_health -= damage
@@ -46,13 +47,13 @@ func take_damage(damage: int):
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"): 
+	if body.is_in_group("Player") or body.is_in_group("Lights"):
 		attack_cooldown_timer.start()
 		in_attack_range = true
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") or body.is_in_group("Lights"):
 		attack_cooldown_timer.stop()
 		in_attack_range = false
 
