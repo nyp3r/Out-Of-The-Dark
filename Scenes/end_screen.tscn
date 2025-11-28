@@ -13,17 +13,49 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f2mtv")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -78.5
+offset_right = 44.0
+offset_bottom = 78.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 49
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="ScoreTitelLabel" type="Label" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Score"
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="HighscoreTitelLabel" type="Label" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Highscore"
+
+[node name="HighscoreLabel" type="Label" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 text = "Finish"
 
-[node name="PlayAgainButton" type="Button" parent="VBoxContainer"]
+[node name="PlayAgainButton" type="Button" parent="VBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 text = "Play Again"
 
-[connection signal="pressed" from="VBoxContainer/PlayAgainButton" to="." method="_on_play_again_button_pressed"]
+[connection signal="pressed" from="VBoxContainer2/VBoxContainer2/PlayAgainButton" to="." method="_on_play_again_button_pressed"]

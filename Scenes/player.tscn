@@ -1,8 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8oe2rplgv31m"]
+[gd_scene load_steps=24 format=3 uid="uid://c8oe2rplgv31m"]
 
 [ext_resource type="Script" uid="uid://bavkwkkwqfvot" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="2_cvnsp"]
-[ext_resource type="Script" uid="uid://b7kemrvcql255" path="res://Scripts/shooting_point.gd" id="3_6t5aa"]
+[ext_resource type="Script" uid="uid://w8ef0rjgf8ei" path="res://Scripts/StatesUtility/state_machine.gd" id="4_x3wgy"]
+[ext_resource type="Script" uid="uid://da0t3gy0nyabr" path="res://Scripts/pistol.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://co0qjllhy18mr" path="res://Scripts/grenade_launcher.gd" id="6_8erm5"]
+[ext_resource type="Script" uid="uid://dgtei8xyfaoho" path="res://Scripts/grenade_area.gd" id="6_x3wgy"]
+[ext_resource type="AudioStream" uid="uid://coqjs11cr71ta" path="res://Assets/grenade_launcher.mp3" id="7_3smsa"]
+[ext_resource type="Script" uid="uid://chypc7f0halu0" path="res://Scripts/uzi.gd" id="7_f1ek2"]
+[ext_resource type="AudioStream" uid="uid://d1ki572qqyhcd" path="res://Assets/pistol_shot.mp3" id="8_8erm5"]
+[ext_resource type="AudioStream" uid="uid://bb517txy7u0xv" path="res://Assets/uzi.mp3" id="10_tx1dd"]
+[ext_resource type="AudioStream" uid="uid://b8pltkblt6d8q" path="res://Assets/uzi_stop.mp3" id="11_gymyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
 size = Vector2(12, 12)
@@ -22,6 +30,24 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
+radius = 16.03122
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
+atlas = ExtResource("2_cvnsp")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fkybt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vgqql")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
 atlas = ExtResource("2_cvnsp")
 region = Rect2(16, 16, 16, 16)
@@ -31,6 +57,36 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6t5aa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
+atlas = ExtResource("2_cvnsp")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f1ek2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8erm5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
+atlas = ExtResource("2_cvnsp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3wgy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkybt")
 }],
 "loop": true,
 "name": &"default",
@@ -50,12 +106,94 @@ one_way_collision_margin = 0.0
 sprite_frames = SubResource("SpriteFrames_6t5aa")
 animation = &"new_animation"
 
-[node name="PistolAnchorNode" type="Node2D" parent="."]
+[node name="GrenadeArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_x3wgy")
 
-[node name="ShootingPoint" type="Marker2D" parent="PistolAnchorNode"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrenadeArea"]
+shape = SubResource("CircleShape2D_3smsa")
+disabled = true
+
+[node name="ShootingAnchor" type="Node2D" parent="."]
+
+[node name="ShootingPoint" type="Marker2D" parent="ShootingAnchor"]
+unique_name_in_owner = true
 position = Vector2(15, -1)
-script = ExtResource("3_6t5aa")
 
-[node name="PistolSprite" type="AnimatedSprite2D" parent="PistolAnchorNode"]
+[node name="GrenadeLauncherSprite" type="AnimatedSprite2D" parent="ShootingAnchor"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(13, 0)
+sprite_frames = SubResource("SpriteFrames_fkybt")
+
+[node name="PistolSprite" type="AnimatedSprite2D" parent="ShootingAnchor"]
+unique_name_in_owner = true
+visible = false
 position = Vector2(11, 0)
 sprite_frames = SubResource("SpriteFrames_vgqql")
+
+[node name="UziSprite" type="AnimatedSprite2D" parent="ShootingAnchor"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(11, 0)
+sprite_frames = SubResource("SpriteFrames_f1ek2")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_x3wgy")
+initial_state = NodePath("Uzi")
+metadata/_custom_type_script = "uid://w8ef0rjgf8ei"
+
+[node name="Pistol" type="Node" parent="StateMachine"]
+script = ExtResource("5_3smsa")
+
+[node name="GrenadeLauncher" type="Node" parent="StateMachine"]
+script = ExtResource("6_8erm5")
+
+[node name="Uzi" type="Node" parent="StateMachine"]
+script = ExtResource("7_f1ek2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="GrenadeImpactIndicator" type="AnimatedSprite2D" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+sprite_frames = SubResource("SpriteFrames_x3wgy")
+
+[node name="PistolCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true
+
+[node name="GrenadeLauncherShootingCooldownTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[node name="GrenadeLauncherShootAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_3smsa")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
+
+[node name="PistolShotAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_8erm5")
+
+[node name="UziSpraySpeedTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.05
+
+[node name="UziSprayAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_tx1dd")
+volume_db = -6.058
+
+[node name="UziSprayStopAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_gymyn")
+
+[connection signal="body_entered" from="GrenadeArea" to="GrenadeArea" method="_on_body_entered"]
+[connection signal="body_exited" from="GrenadeArea" to="GrenadeArea" method="_on_body_exited"]
+[connection signal="timeout" from="GrenadeLauncherShootingCooldownTimer" to="StateMachine/GrenadeLauncher" method="_on_grenade_launcher_shooting_cooldown_timer_timeout"]
+[connection signal="timeout" from="UziSpraySpeedTimer" to="StateMachine/Uzi" method="_on_uzi_spray_speed_timer_timeout"]

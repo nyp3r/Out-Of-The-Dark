@@ -8,6 +8,10 @@ var current_health: int
 var target: Node2D
 
 @onready var attack_cooldown_timer: Timer = $AttackCooldownTimer
+@onready var area_collider: CollisionShape2D = %AreaCollider
+@onready var collider: CollisionShape2D = %Collider
+@onready var impact_animation: AnimatedSprite2D = %ImpactAnimation
+@onready var sprite: AnimatedSprite2D = $Sprite
 
 var in_attack_range := false
 
@@ -39,11 +43,17 @@ func _physics_process(_delta: float) -> void:
 		look_at(target.global_position)
 	else: queue_free()
 
-func take_damage(damage: int):
+func take_damage(damage: int, is_bullet := false):
 	current_health -= damage
+	if is_bullet:
+		impact_animation.play()
 	if current_health <= 0:
 		enemy_killed.emit((data.attack_speed + data.damage + float(data.max_health)/2 + data.speed/25) / 4)
-		queue_free()
+		if not is_bullet:
+			queue_free()
+		else:
+			collider.disabled = true
+			area_collider.disabled = true
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -62,3 +72,9 @@ func _on_attack_cooldown_timer_timeout() -> void:
 	if in_attack_range:
 		target.take_damage(data.damage)
 		attack_cooldown_timer.start()
+
+
+func _on_impact_animation_animation_finished() -> void:
+	impact_animation.frame = 0
+	if current_health <= 0: 
+		queue_free()

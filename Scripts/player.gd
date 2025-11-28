@@ -5,7 +5,7 @@ class_name Player
 var current_health = max_health
 
 @export var speed = 400
-@onready var pistol_anchor_node: Node2D = $PistolAnchorNode
+@onready var shooting_anchor: Node2D = $ShootingAnchor
 @onready var health_label: Label = $"../CanvasLayer/HealthLabel"
 
 func _ready() -> void:
@@ -18,7 +18,7 @@ func get_input():
 func _physics_process(_delta):
 	get_input()
 	move_and_slide()
-	pistol_anchor_node.look_at(get_global_mouse_position())
+	shooting_anchor.look_at(get_global_mouse_position())
 
 func take_damage(damage: int):
 	current_health -= damage

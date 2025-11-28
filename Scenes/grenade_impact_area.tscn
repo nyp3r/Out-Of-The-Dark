@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://xe8lgwqmmiga"]
+
+[ext_resource type="Script" uid="uid://c0jtjcdtvmimm" path="res://Scripts/grenade_impact_area.gd" id="1_lirp4"]
+[ext_resource type="AudioStream" uid="uid://dhvmw6o1iks0u" path="res://Assets/grenade_explosion.mp3" id="2_6w3ld"]
+[ext_resource type="Texture2D" uid="uid://bmkb30b36f3ih" path="res://Assets/explosion_animation.png" id="3_vrvt2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6w3ld"]
+radius = 16.03122
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvl7m"]
+atlas = ExtResource("3_vrvt2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sg7fr"]
+atlas = ExtResource("3_vrvt2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmwyk"]
+atlas = ExtResource("3_vrvt2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iv75u"]
+atlas = ExtResource("3_vrvt2")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pheft"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvl7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sg7fr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmwyk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iv75u")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="GrenadeImpactArea" type="Area2D"]
+script = ExtResource("1_lirp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6w3ld")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="ImpactSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_6w3ld")
+max_distance = 600.0
+
+[node name="ExplosionAnimation" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_pheft")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="ImpactSound" to="." method="_on_impact_sound_finished"]
+[connection signal="animation_finished" from="ExplosionAnimation" to="." method="_on_explosion_animation_animation_finished"]

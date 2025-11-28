@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=4 uid="uid://1pydhwav7cxr"]
+[gd_scene load_steps=9 format=4 uid="uid://1pydhwav7cxr"]
 
-[ext_resource type="PackedScene" uid="uid://du2c3p8dno2gf" path="res://Scenes/pillar.tscn" id="1_qxrlw"]
 [ext_resource type="Script" uid="uid://ueubfxylfuu5" path="res://Scripts/game_manager.gd" id="1_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c8oe2rplgv31m" path="res://Scenes/player.tscn" id="2_wrm1d"]
 [ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="3_wrm1d"]
@@ -37,16 +36,12 @@ unique_name_in_owner = true
 script = ExtResource("1_wowpa")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(3, 3)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_1l0tm")
-
-[node name="Pillar" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(35, -40)
 
 [node name="Player" parent="." instance=ExtResource("2_wrm1d")]
 z_index = 10
@@ -85,11 +80,12 @@ offset_top = 34.0
 offset_right = 40.0
 offset_bottom = 57.0
 
-[node name="LightHealthLabel" type="Label" parent="CanvasLayer"]
-unique_name_in_owner = true
-offset_top = 165.0
-offset_right = 40.0
-offset_bottom = 188.0
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+offset_left = 452.0
+offset_top = 2.0
+offset_right = 492.0
+offset_bottom = 25.0
+text = "0"
 
 [node name="CountDownTimer" type="Timer" parent="."]
 wait_time = 20.0
