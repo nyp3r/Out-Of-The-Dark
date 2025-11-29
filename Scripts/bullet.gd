@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		var enemy = body as Enemy
-		enemy.take_damage(damage, true)
+		enemy.take_damage(damage)
 	queue_free()

@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://crcb7qb4t3a4i"]
 
-[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="1_85kml"]
+[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/Sprites/sprite_sheet.png" id="1_85kml"]
 [ext_resource type="Script" uid="uid://b328gkl5gor85" path="res://Scripts/light_area.gd" id="1_r3kg8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_85kml"]
-radius = 11.0
+radius = 67.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r3kg8"]
 
@@ -52,3 +52,6 @@ sprite_frames = SubResource("SpriteFrames_8osqs")
 scale = Vector2(2, 2)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_r3kg8")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

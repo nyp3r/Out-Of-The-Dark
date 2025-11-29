@@ -13,13 +13,12 @@ var spawn_count = 5
 @onready var combo_timer: Timer = $"../ComboTimer"
 @onready var kill_combo_label: Label = $"../CanvasLayer/KillComboLabel"
 @onready var score_label: Label = $"../CanvasLayer/ScoreLabel"
+@onready var score_animation: AnimationPlayer = %ScoreAnimation
 
 var kill_combo: int
 
-func _ready() -> void:
-	await get_tree().create_timer(2).timeout
-	spawn_enemies(spawn_count, Vector2.ZERO, 10) 
-	print_debug("test")
+func _ready() -> void: 
+	spawn_enemies.call_deferred(spawn_count, Vector2.ZERO, MAIN_LIGHT_RADIUS)
 
 func _on_count_down_timer_timeout() -> void:
 	Scores.append_score(score)
@@ -57,12 +56,15 @@ func spawn_light():
 	light_instance.global_position = light_position
 
 func _on_enemy_killed(kill_points: int):
+	var lights_multiplier = get_tree().get_nodes_in_group("Lights").size() + 1
 	score += kill_points
-	score_label.text = str(score * (get_tree().get_nodes_in_group("Lights").size() + 1))
+	score_label.text = str(score * lights_multiplier, " x", lights_multiplier)
+	score_animation.play("kill_combo")
 	combo_timer.start()
 	kill_combo += kill_points
 	kill_combo_label.text = str(kill_combo)
 	if kill_combo >= 5:
+		score_label.add_theme_color_override("font_color", Color.from_hsv(1/lights_multiplier, 1, 1))
 		spawn_light()
 		kill_combo = 0
 
@@ -81,4 +83,5 @@ func get_closest_light_distance(position: Vector2) -> float:
 	return closest_distance
 
 func _on_light_died():
-	score_label.text = str(score * (get_tree().get_nodes_in_group("Lights").size() + 1))
+	var lights_multiplier = get_tree().get_nodes_in_group("Lights").size() + 1
+	score_label.text = str(score * lights_multiplier, " x", lights_multiplier)

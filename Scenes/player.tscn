@@ -1,29 +1,29 @@
 [gd_scene load_steps=24 format=3 uid="uid://c8oe2rplgv31m"]
 
 [ext_resource type="Script" uid="uid://bavkwkkwqfvot" path="res://Scripts/player.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/sprite_sheet.png" id="2_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/Sprites/sprite_sheet.png" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://w8ef0rjgf8ei" path="res://Scripts/StatesUtility/state_machine.gd" id="4_x3wgy"]
 [ext_resource type="Script" uid="uid://da0t3gy0nyabr" path="res://Scripts/pistol.gd" id="5_3smsa"]
 [ext_resource type="Script" uid="uid://co0qjllhy18mr" path="res://Scripts/grenade_launcher.gd" id="6_8erm5"]
 [ext_resource type="Script" uid="uid://dgtei8xyfaoho" path="res://Scripts/grenade_area.gd" id="6_x3wgy"]
-[ext_resource type="AudioStream" uid="uid://coqjs11cr71ta" path="res://Assets/grenade_launcher.mp3" id="7_3smsa"]
+[ext_resource type="AudioStream" uid="uid://coqjs11cr71ta" path="res://Assets/SFX/grenade_launcher.mp3" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://chypc7f0halu0" path="res://Scripts/uzi.gd" id="7_f1ek2"]
-[ext_resource type="AudioStream" uid="uid://d1ki572qqyhcd" path="res://Assets/pistol_shot.mp3" id="8_8erm5"]
-[ext_resource type="AudioStream" uid="uid://bb517txy7u0xv" path="res://Assets/uzi.mp3" id="10_tx1dd"]
-[ext_resource type="AudioStream" uid="uid://b8pltkblt6d8q" path="res://Assets/uzi_stop.mp3" id="11_gymyn"]
+[ext_resource type="AudioStream" uid="uid://d1ki572qqyhcd" path="res://Assets/SFX/pistol_shot.mp3" id="8_8erm5"]
+[ext_resource type="AudioStream" uid="uid://bb517txy7u0xv" path="res://Assets/SFX/uzi.mp3" id="10_tx1dd"]
+[ext_resource type="AudioStream" uid="uid://b8pltkblt6d8q" path="res://Assets/SFX/uzi_stop.mp3" id="11_gymyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
 size = Vector2(12, 12)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
 atlas = ExtResource("2_cvnsp")
-region = Rect2(0, 16, 16, 16)
+region = Rect2(32, 48, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6t5aa"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cvnsp")
+"texture": SubResource("AtlasTexture_gymyn")
 }],
 "loop": true,
 "name": &"new_animation",
@@ -33,15 +33,15 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
 radius = 16.03122
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu2lt"]
 atlas = ExtResource("2_cvnsp")
-region = Rect2(32, 32, 16, 16)
+region = Rect2(64, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fkybt"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vgqql")
+"texture": SubResource("AtlasTexture_pu2lt")
 }],
 "loop": true,
 "name": &"default",
@@ -63,15 +63,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
 atlas = ExtResource("2_cvnsp")
-region = Rect2(48, 32, 16, 16)
+region = Rect2(80, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f1ek2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8erm5")
+"texture": SubResource("AtlasTexture_ukyrk")
 }],
 "loop": false,
 "name": &"default",

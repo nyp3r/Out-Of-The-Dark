@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmkb30b36f3ih"
-path="res://.godot/imported/explosion_animation.png-05b939252d62e9446802f8d04f51240e.ctex"
+uid="uid://ch1d7ee3c55qp"
+path="res://.godot/imported/bullet_impact_animation.png-37a822e2eab3e7b044ca12e14f7078e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/explosion_animation.png"
-dest_files=["res://.godot/imported/explosion_animation.png-05b939252d62e9446802f8d04f51240e.ctex"]
+source_file="res://Assets/Sprites/bullet_impact_animation.png"
+dest_files=["res://.godot/imported/bullet_impact_animation.png-37a822e2eab3e7b044ca12e14f7078e4.ctex"]
 
 [params]
 

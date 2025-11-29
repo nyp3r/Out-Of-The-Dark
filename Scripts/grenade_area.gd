@@ -16,7 +16,7 @@ func _on_body_exited(body: Node2D) -> void:
 			if i == body:
 				bodies_in_area.erase(i)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not grenade_launched:
 		global_position = get_global_mouse_position()
 	else: global_position = launched_position

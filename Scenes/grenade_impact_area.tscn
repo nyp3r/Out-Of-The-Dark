@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://xe8lgwqmmiga"]
 
 [ext_resource type="Script" uid="uid://c0jtjcdtvmimm" path="res://Scripts/grenade_impact_area.gd" id="1_lirp4"]
-[ext_resource type="AudioStream" uid="uid://dhvmw6o1iks0u" path="res://Assets/grenade_explosion.mp3" id="2_6w3ld"]
-[ext_resource type="Texture2D" uid="uid://bmkb30b36f3ih" path="res://Assets/explosion_animation.png" id="3_vrvt2"]
+[ext_resource type="AudioStream" uid="uid://dhvmw6o1iks0u" path="res://Assets/SFX/grenade_explosion.mp3" id="2_6w3ld"]
+[ext_resource type="Texture2D" uid="uid://bmkb30b36f3ih" path="res://Assets/Sprites/explosion_animation.png" id="3_vrvt2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6w3ld"]
 radius = 16.03122
