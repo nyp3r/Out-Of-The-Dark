@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://coqjs11cr71ta" path="res://Assets/SFX/grenade_launcher.mp3" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://chypc7f0halu0" path="res://Scripts/uzi.gd" id="7_f1ek2"]
 [ext_resource type="AudioStream" uid="uid://d1ki572qqyhcd" path="res://Assets/SFX/pistol_shot.mp3" id="8_8erm5"]
-[ext_resource type="AudioStream" uid="uid://bb517txy7u0xv" path="res://Assets/SFX/uzi.mp3" id="10_tx1dd"]
+[ext_resource type="AudioStream" uid="uid://cr7h88r7juj1s" path="res://Assets/SFX/uziv2.mp3" id="10_gymyn"]
 [ext_resource type="AudioStream" uid="uid://b8pltkblt6d8q" path="res://Assets/SFX/uzi_stop.mp3" id="11_gymyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
@@ -186,8 +186,7 @@ wait_time = 0.05
 
 [node name="UziSprayAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("10_tx1dd")
-volume_db = -6.058
+stream = ExtResource("10_gymyn")
 
 [node name="UziSprayStopAudio" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

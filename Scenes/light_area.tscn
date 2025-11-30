@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://crcb7qb4t3a4i"]
+[gd_scene load_steps=20 format=3 uid="uid://crcb7qb4t3a4i"]
 
-[ext_resource type="Texture2D" uid="uid://bq8lbri08vmul" path="res://Assets/Sprites/sprite_sheet.png" id="1_85kml"]
 [ext_resource type="Script" uid="uid://b328gkl5gor85" path="res://Scripts/light_area.gd" id="1_r3kg8"]
+[ext_resource type="Texture2D" uid="uid://ci25nr7s2h856" path="res://Assets/Sprites/light_animation.png" id="2_r3kg8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_85kml"]
 radius = 67.0
@@ -9,18 +9,74 @@ radius = 67.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_r3kg8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_djbbt"]
-atlas = ExtResource("1_85kml")
-region = Rect2(0, 32, 32, 32)
+atlas = ExtResource("2_r3kg8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8osqs"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ckln"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5htc"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shdjy"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kb4cr"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr1b7"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eexpi"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sosxa"]
+atlas = ExtResource("2_r3kg8")
+region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8osqs"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_djbbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8osqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ckln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5htc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shdjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kb4cr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr1b7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eexpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sosxa")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="Gradient" id="Gradient_i6g32"]
@@ -32,6 +88,43 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_count = 2
+
+[sub_resource type="Animation" id="Animation_r3kg8"]
+resource_name = "point_light"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_djbbt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8osqs"]
+_data = {
+&"RESET": SubResource("Animation_djbbt"),
+&"point_light": SubResource("Animation_r3kg8")
+}
 
 [node name="LightArea" type="StaticBody2D"]
 z_index = 75
@@ -50,8 +143,14 @@ sprite_frames = SubResource("SpriteFrames_8osqs")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(2, 2)
+color = Color(0, 0, 0, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_r3kg8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8osqs")
+}
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

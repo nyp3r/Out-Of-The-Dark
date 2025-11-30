@@ -5,8 +5,7 @@ const BULLET = preload("uid://blgiurjj48f67")
 @onready var uzi_spray_speed_timer: Timer = %UziSpraySpeedTimer
 @onready var uzi_spray_audio: AudioStreamPlayer2D = %UziSprayAudio
 @onready var shooting_point: Marker2D = %ShootingPoint
-@onready var shooting_anchor: Node2D = $"../../ShootingAnchor"
-@onready var uzi_spray_stop_audio: AudioStreamPlayer2D = %UziSprayStopAudio
+@onready var shooting_anchor: Node2D = $"../../ShootingAnchor" 
 
 func enter():
 	uzi_sprite.visible = true
@@ -19,12 +18,10 @@ func exit():
 func process(_delta):
 	if Input.is_action_just_pressed("shoot"):
 		uzi_spray_speed_timer.start()
-		uzi_spray_audio.play()
-		uzi_spray_stop_audio.stop()
+		uzi_spray_audio.play() 
 	if Input.is_action_just_released("shoot"):
 		uzi_spray_speed_timer.stop()
-		uzi_spray_audio.stop()
-		uzi_spray_stop_audio.play()
+		uzi_spray_audio.stop() 
 	
 	if Input.is_action_just_pressed("switch_weapon"):
 		transitioned.emit(self, "GrenadeLauncher")

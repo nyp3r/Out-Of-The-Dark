@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://1pydhwav7cxr"]
+[gd_scene load_steps=22 format=4 uid="uid://1pydhwav7cxr"]
 
 [ext_resource type="Script" uid="uid://ueubfxylfuu5" path="res://Scripts/game_manager.gd" id="1_wowpa"]
 [ext_resource type="PackedScene" uid="uid://c8oe2rplgv31m" path="res://Scenes/player.tscn" id="2_wrm1d"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://cidc08d131s6u" path="res://Assets/Fonts/m42.TTF" id="4_i6g32"]
 [ext_resource type="Script" uid="uid://bi02b3curfrri" path="res://Scripts/area_2d.gd" id="5_i6g32"]
 [ext_resource type="Script" uid="uid://pbvbiiskn6dx" path="res://Scripts/count_down_label.gd" id="5_wowpa"]
+[ext_resource type="Texture2D" uid="uid://dbqthtq4n7crq" path="res://Assets/Sprites/kill_combo_indicator.png" id="6_1l0tm"]
 
 [sub_resource type="Gradient" id="Gradient_wowpa"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -33,6 +34,21 @@ texture = ExtResource("3_wrm1d")
 [sub_resource type="TileSet" id="TileSet_wowpa"]
 sources/0 = SubResource("TileSetAtlasSource_3dryh")
 
+[sub_resource type="Animation" id="Animation_1l0tm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ScoreLabel:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_i6g32"]
 resource_name = "kill_combo"
 length = 0.3
@@ -49,26 +65,54 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(2.5, 2.5), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_1l0tm"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ScoreLabel:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v158k"]
 _data = {
 &"RESET": SubResource("Animation_1l0tm"),
 &"kill_combo": SubResource("Animation_i6g32")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v158k"]
+atlas = ExtResource("6_1l0tm")
+region = Rect2(0, 0, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4fw4"]
+atlas = ExtResource("6_1l0tm")
+region = Rect2(128, 0, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldgsr"]
+atlas = ExtResource("6_1l0tm")
+region = Rect2(256, 0, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5yvi"]
+atlas = ExtResource("6_1l0tm")
+region = Rect2(384, 0, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rku1e"]
+atlas = ExtResource("6_1l0tm")
+region = Rect2(512, 0, 128, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rfjv2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v158k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4fw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldgsr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o5yvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rku1e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1l0tm"]
 radius = 92.00543
@@ -77,6 +121,7 @@ radius = 92.00543
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
+process_mode = 3
 script = ExtResource("1_wowpa")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
@@ -98,7 +143,7 @@ tile_map_data = PackedByteArray("AADe/+X/AAAHAAAAAADe/+b/AAAHAAAAAADe/+f/AAAHAAA
 tile_set = SubResource("TileSet_wowpa")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+position = Vector2(-1, 5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -150,6 +195,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_v158k")
 }
 
+[node name="KillComboIndicator" type="AnimatedSprite2D" parent="CanvasLayer"]
+unique_name_in_owner = true
+position = Vector2(275, 55)
+sprite_frames = SubResource("SpriteFrames_rfjv2")
+frame_progress = 0.029755285
+
 [node name="CountDownTimer" type="Timer" parent="."]
 wait_time = 20.0
 one_shot = true
@@ -160,7 +211,11 @@ wait_time = 3.0
 autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.5
+one_shot = true
+
+[node name="ComboDecreaseTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("5_i6g32")
@@ -171,4 +226,5 @@ shape = SubResource("CircleShape2D_1l0tm")
 [connection signal="timeout" from="CountDownTimer" to="GameManager" method="_on_count_down_timer_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="GameManager" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="GameManager" method="_on_combo_timer_timeout"]
+[connection signal="timeout" from="ComboDecreaseTimer" to="GameManager" method="_on_combo_decrease_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

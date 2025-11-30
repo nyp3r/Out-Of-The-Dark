@@ -50,6 +50,8 @@ script = ExtResource("1_lirp4")
 shape = SubResource("CircleShape2D_6w3ld")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 autostart = true
 
 [node name="ImpactSound" type="AudioStreamPlayer2D" parent="."]

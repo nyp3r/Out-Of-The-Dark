@@ -14,14 +14,22 @@ var spawn_count = 5
 @onready var kill_combo_label: Label = $"../CanvasLayer/KillComboLabel"
 @onready var score_label: Label = $"../CanvasLayer/ScoreLabel"
 @onready var score_animation: AnimationPlayer = %ScoreAnimation
+@onready var kill_combo_indicator: AnimatedSprite2D = %KillComboIndicator
+@onready var combo_decrease_timer: Timer = $"../ComboDecreaseTimer"
 
 var kill_combo: int
 
-func _ready() -> void: 
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("pause") and not get_tree().paused:
+		get_tree().paused = true
+	elif Input.is_action_just_pressed("pause") and get_tree().paused:
+		get_tree().paused = false
+
+func _ready() -> void:
 	spawn_enemies.call_deferred(spawn_count, Vector2.ZERO, MAIN_LIGHT_RADIUS)
 
 func _on_count_down_timer_timeout() -> void:
-	Scores.append_score(score)
+	Scores.append_score(score * get_tree().get_nodes_in_group("Lights").size() + 1)
 	get_tree().change_scene_to_packed(END_SCREEN)
 
 func spawn_enemies(count: int, center: Vector2, radius: float): #to be figured out
@@ -46,30 +54,32 @@ func spawn_light():
 	var light_instance = LIGHT.instantiate() as Node2D
 	get_tree().current_scene.add_child.call_deferred(light_instance)
 	light_instance.connect("light_died", _on_light_died)
-	light_instance.add_to_group("Lights")
-	var light_position := Vector2.ZERO
-	while get_closest_light_distance(light_position) < LIGHT_RADIUS or Vector2.ZERO.distance_to(light_position) < 200:
-		light_position = Vector2(randi_range(-205, 205), randi_range(-205, 205))
-	if light_position == Vector2.ZERO:
-		light_instance.queue_free()
-		return
-	light_instance.global_position = light_position
+	light_instance.add_to_group("Lights") 
+	while true:
+		var angle: float = randf_range(0.0, TAU)
+		var vec: Vector2 = Vector2.RIGHT
+		light_instance.global_position = (vec * 205).rotated(angle)
+		if get_closest_light_distance(light_instance.global_position) > LIGHT_RADIUS:
+			break
 
 func _on_enemy_killed(kill_points: int):
 	var lights_multiplier = get_tree().get_nodes_in_group("Lights").size() + 1
 	score += kill_points
 	score_label.text = str(score * lights_multiplier, " x", lights_multiplier)
-	score_animation.play("kill_combo")
 	combo_timer.start()
+	combo_decrease_timer.stop()
 	kill_combo += kill_points
 	kill_combo_label.text = str(kill_combo)
 	if kill_combo >= 5:
-		score_label.add_theme_color_override("font_color", Color.from_hsv(1/lights_multiplier, 1, 1))
+		score_animation.play("kill_combo")
 		spawn_light()
 		kill_combo = 0
+	kill_combo_indicator.frame = kill_combo
 
 func _on_combo_timer_timeout() -> void:
-	kill_combo = 0
+	kill_combo -= 1
+	combo_decrease_timer.start()
+	kill_combo_indicator.frame = kill_combo
 	kill_combo_label.text = str(kill_combo)
 
 func get_closest_light_distance(position: Vector2) -> float:
@@ -85,3 +95,11 @@ func get_closest_light_distance(position: Vector2) -> float:
 func _on_light_died():
 	var lights_multiplier = get_tree().get_nodes_in_group("Lights").size() + 1
 	score_label.text = str(score * lights_multiplier, " x", lights_multiplier)
+
+
+func _on_combo_decrease_timer_timeout() -> void:
+	kill_combo -= 1
+	kill_combo_indicator.frame = kill_combo
+	kill_combo_label.text = str(kill_combo)
+	if kill_combo == 0:
+		combo_decrease_timer.stop()
